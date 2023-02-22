@@ -1,0 +1,980 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/black.css">
+		<link rel="stylesheet" href="css/custom.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<!-- Title Slide -->
+				<section data-transition="none">
+					<h3> Computational and Theoretical Advances in Accurately Modeling
+						Molecular Wave Functions </h3>
+					<p> 
+						Duy-Khoi Dang <br>
+						Zimmerman Group
+					</p>
+				</section>
+				<!-- Intro to quantum slide -->
+				<section data-transition="none">
+					<h3> A Primer on Quantum Mechanics</h3>
+					<ul>
+						<li class="fragment"> First postulate of quantum mechanics: A system is completely specified by its wave function, $\psi$ </li>
+						<li class="fragment"> A classical observable, $O$, may be obtained by applying Hermitian operator, $\hat{O}$, to the wave function </li>
+						<li class="fragment" style="list-style-type: none"> $$\hat{O}\vert \psi \rangle = O \vert \psi \rangle$$ </li>
+					</ul>
+				</section>
+				<!-- Schrodinger equation slide -->
+				<section data-transition="none">
+					<h3> The Schrödinger Equation </h3>
+					<p class="fragment">
+						\[\begin{equation*}
+							\hat{H} \vert \psi \rangle = E \vert \psi \rangle
+						\end{equation*}\]
+					</p>
+					<figure class="fragment">
+						<img src="figures/neu_hurtig.jpg" height="400px">
+						<figcaption style="font-size : 12pt">https://repository.library.northeastern.edu/files/neu:199499</figcaption>
+					</figure>
+				</section>
+				<!-- Hamiltonian slides -->
+				<section data-transition="none">
+					<h3> The Hamiltonian </h3>
+					<p class = "r-fit-text">
+						\[\begin{gather*}
+							\fragment{1}{\hat{H}}  
+							\fragment{2}{= \color{lime}{\underbrace{\vphantom{\boxed{\sum_{i>j}}}\color{lime}{-\frac{1}{2} \sum_i \nabla_i^2}}_{\text{e$^-$ KE}}}}
+							\fragment{3}{ \color{cyan}{\underbrace{\vphantom{\boxed{\sum_{i>j}}}\color{cyan}{-\frac{1}{2} \sum_I \nabla_I^2}}_{\text{nuc KE}}}}
+							\fragment{4}{ \color{violet}{\underbrace{\vphantom{\boxed{\sum_{i>j}}}\color{violet}{+ \sum_{i>j} \frac{1}{\vert r_i - r_j \vert} }}_{\text{e$^-$-e$^-$ repulsion}}}}
+							\fragment{5}{ \color{orange}{\underbrace{\vphantom{\boxed{\sum_{i>j}}}\color{orange}{+ \sum_{I>J} \frac{Z_I Z_J}{\vert R_I - R_J \vert} }}_{\text{nuc-nuc repulsion}}}}
+							\fragment{6}{ \color{yellow}{\underbrace{\vphantom{\boxed{\sum_{i>j}}}\color{yellow}{- \sum_I \sum_i \frac{Z_I}{\vert r_i - R_I \vert}}}_{\text{nuc-e$^-$ attraction}}}}
+						\end{gather*}\]
+					</p>
+				</section>
+				<section data-transition="none">
+					<h3> The Hamiltonian </h3>
+					<p class = "r-fit-text">
+						\[\begin{gather*}
+							\hat{H}
+							= \color{lime}{\underbrace{\vphantom{\boxed{\sum_{i>j}}}\color{lime}{-\frac{1}{2} \sum_i \nabla_i^2}}_{\text{e$^-$ KE}}}
+							\color{cyan}{\underbrace{\vphantom{\boxed{\sum_{i>j}}}\boxed{\color{cyan}{-\frac{1}{2} \sum_I \nabla_I^2}}}_{\text{nuc KE}}}
+							\color{violet}{\underbrace{\vphantom{\boxed{\sum_{i>j}}}\color{violet}{+ \sum_{i>j} \frac{1}{\vert r_i - r_j \vert} }}_{\text{e$^-$-e$^-$ repulsion}}}
+							\color{orange}{\underbrace{\vphantom{\boxed{\sum_{i>j}}}\boxed{\color{orange}{+ \sum_{I>J} \frac{Z_I Z_J}{\vert R_I - R_J \vert} }}}_{\text{nuc-nuc repulsion}}}
+							\color{yellow}{\underbrace{\vphantom{\boxed{\sum_{i>j}}}\color{yellow}{- \sum_I \sum_i \frac{Z_I}{\vert r_i - R_I \vert}}}_{\text{nuc-e$^-$ attraction}}}
+						\end{gather*}\]
+					</p>
+				</section>
+				<section data-transition="none">
+					<h3> The Electronic Hamiltonian </h3>
+					<p>
+						\[\begin{equation*}
+							\hat{H}
+							= \color{lime}{\underbrace{\vphantom{\boxed{\sum_{i>j}}}\color{lime}{-\frac{1}{2} \sum_i \nabla_i^2}}_{\text{e$^-$ KE}}}
+							\color{violet}{\underbrace{\vphantom{\boxed{\sum_{i>j}}}\color{violet}{+ \sum_{i>j} \frac{1}{\vert r_i - r_j \vert} }}_{\text{e$^-$-e$^-$ repulsion}}}
+							\color{yellow}{\underbrace{\vphantom{\boxed{\sum_{i>j}}}\color{yellow}{- \sum_I \sum_i \frac{Z_I}{\vert r_i - R_I \vert}}}_{\text{nuc-e$^-$ attraction}}}
+						\end{equation*}\]
+					</p>
+					<p class="fragment">
+						$$\hat{H} \vert \psi \rangle = E \vert \psi \rangle$$
+						Only solvable for H-atom
+					</p>
+				</section>
+				<!-- Slater determinants/variational principle -->
+				<section data-transition="none">
+					<h3>The Variational Principle</h3>
+					<p class="fragment">
+						\[\begin{equation*}
+							\langle \psi \vert \hat{H} \vert \psi \rangle \geq E_0
+						\end{equation*}\]
+					</p>
+					<p class="fragment"> Guess Wave function $\implies$ Optimize</p>
+				</section>
+				<section data-transition="none">
+					<h3>Basis Selection</h3>
+					<div class="container">
+						<div class="col" style="font-size : 28pt">
+							<ul>
+								<li class="fragment" data-fragment-index="1">
+									Project $\psi$ onto basis
+								</li>
+								<li class="fragment" data-fragment-index="2">
+									Atom-centered, 1-electron basis
+								</li>
+								<li class="fragment" data-fragment-index="3">
+									Hydrogen-like atomic wave functions
+									<span class="fragment">: atomic orbitals</span>
+								</li>
+								<li class="fragment">
+									Take linear combination of atomic orbitals (LCAO) to form molecular orbitals (MO)
+								</li>
+							</ul>
+							<div class="r-stack">
+								<img src="figures/lcao_left.png" class="fragment" height="250px">
+								<img src="figures/lcao_left_right.png" class="fragment" height="250px">
+								<img src="figures/lcao_left_right_mo.png" class="fragment" height="250px">
+							</div>
+						</div>
+						<div class="col">
+						<figure class="fragment" data-fragment-index="3">
+							<img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Hydrogen_Density_Plots.png" height="550px">
+							<figcaption style="font-size : 12pt">https://upload.wikimedia.org/wikipedia/commons/e/e7/Hydrogen_Density_Plots.png</figcaption>
+						</figure>
+						</div>
+					</div>
+				</section>
+				<section data-transition="none">
+					<h3>LCAO-MO</h3>
+					<p>
+						<img src="figures/eth_orbs.png" height="650px">
+					</p>
+				</section>
+				<section data-transition="none">
+					<h3>Functional form of the Wave Function</h3>
+					<p class="fragment">Naive approach 
+						\[\begin{gather*}
+						\fragment{2}{\psi=\phi_1(\mathbf{r}_1)\phi_2(\mathbf{r}_2)\cdots\phi_N(\mathbf{r}_N)} \fragment{3}{\impliedby \text{No exchange}}
+						\\\\
+						\fragment{4}{\psi = \frac{1}{\sqrt{N!}} 
+							\begin{vmatrix} 
+								\phi_1(\mathbf{r}_1) & \phi_2 (\mathbf{r}_1) & \cdots & \phi_N(\mathbf{r}_1) \\
+								\phi_1(\mathbf{r}_2) & \phi_2 (\mathbf{r}_2) & \cdots & \phi_N(\mathbf{r}_2) \\
+								\vdots & \vdots & \ddots & \vdots \\
+								\phi_1(\mathbf{r}_N) & \phi_2 (\mathbf{r}_N) & \cdots & \phi_N(\mathbf{r}_N)
+							\end{vmatrix}
+						} \fragment{5}{\impliedby \text{has exchange}}
+						\end{gather*}\]
+					</p>
+				</section>
+				<section data-transition="none">
+					<h3>Electron Correlation</h3>
+					<ul>
+						<li class="fragment"> HF (single determinant) only qualitatively correct (sometimes)</li>
+						<li class="fragment"> Missing electron correlation </li>
+					</ul>
+					<div class="container">
+						<div class="col">
+							<div class="r-stack">
+								<img src="figures/diss_h2_hf.png" class="fragment fade-in-then-out" height="510px">
+								<img src="figures/diss_h2_exact.png" class="fragment" height="510px">
+							</div>
+						</div>
+						<div class="col">
+							<div class="r-stack">
+								<img src="figures/diss_n2_hf.png" class="fragment fade-in-then-out" height="510px">
+								<img src="figures/diss_n2_exact.png" class="fragment" height="510px">
+							</div>
+						</div>
+					</div>
+				</section>
+				<!-- <section data-transition="none">
+					<h3>Self-Consistent Field</h3>
+					<p>
+						<img src="figures/scf_propane_cropped.gif" height="570px">
+					</p>
+				</section> -->
+				<section data-transition="none">
+					<h3>Configuration Interaction</h3>
+					<div class="r-stack">
+						<img src="figures/ci_2_2_configs.png" class="fragment" width="800px">
+						<img src="figures/ci_2_2.png" class="fragment" width="800px">
+						<!-- <img src="figures/ci_2_2_cas.png" class="fragment" width="800px"> -->
+					</div>
+					<p>
+						\[\begin{gather*}
+							\fragment{4}{\hat{H}\psi = E \psi} \fragment{5}{\implies \mathbf{H}\mathbf{C} = E\mathbf{C}}
+							\\
+							\fragment{6}{ H_{ij} = \langle \phi_i \vert \hat{H} \vert \phi_j \rangle}
+						\end{gather*}\]
+					</p>
+				</section>
+				<section data-transition="none">
+					<h3>Full CI Scaling</h3>
+					<div class="container">
+						<div class="col">
+							<img src="figures/ndet.png" class="fragment" width="500px">
+						</div>
+						<div class="col">
+							<img src="https://www.olcf.ornl.gov/wp-content/themes/olcf-edition-child/frontier-assets/systems/frontier.jpg"
+								class="fragment" width="500px">
+							<ul>
+								<li style="font-size: 24pt" class="fragment">1.6 EFLOPS $\implies 1.6 \times 10^{18}$ FLOPS</li>
+								<li style="font-size: 24pt" class="fragment">At C$_4$H$_6$ need >$3$ yrs for single row of $\mathbf{HC}$ matrix-vector multiplication</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+				<section data-transition="none">
+					<h3>Non-exact correlated methods</h3>
+					<ul>
+						<li style="font-size:24pt" class="fragment" data-fragment-index="3"> CISD (only include single and double excitations) scales $O(N^6)$</li>
+						<li style="font-size:24pt" class="fragment" data-fragment-index="4"> CCSD scales $O(N^6)$</li>
+						<li style="font-size:24pt" class="fragment" data-fragment-index="5"> CCSD(T) scales $O(N^7)$<span class="fragment"  data-fragment-index="6">: considered "Gold Standard"</span></li>
+					</ul>
+					<div class="container">
+						<div class="col">
+							<div class="r-stack">
+								<img src="figures/diss_h2_hf.png" class="fragment fade-in-then-out"  data-fragment-index="1" height="510px">
+								<img src="figures/diss_h2_fci.png" class="fragment fade-in-then-out"  data-fragment-index="2" height="510px">
+								<img src="figures/diss_h2_cisd.png" class="fragment fade-in-then-out"  data-fragment-index="3"height="510px">
+								<img src="figures/diss_h2_ccsd.png" class="fragment fade-in-then-out"  data-fragment-index="4" height="510px">
+								<img src="figures/diss_h2_ccsd_t.png" class="fragment"  data-fragment-index="5" height="510px">
+							</div>
+						</div>
+						<div class="col">
+							<div class="r-stack">
+								<img src="figures/diss_n2_hf.png" class="fragment fade-in-then-out"  data-fragment-index="7" height="510px">
+								<img src="figures/diss_n2_fci.png" class="fragment fade-in-then-out"  data-fragment-index="8" height="510px">
+								<img src="figures/diss_n2_cisd.png" class="fragment fade-in-then-out"  data-fragment-index="9" height="510px">
+								<img src="figures/diss_n2_ccsd.png" class="fragment fade-in-then-out"  data-fragment-index="10" height="510px">
+								<img src="figures/diss_n2_ccsd_t.png" class="fragment"  data-fragment-index="11" height="510px">
+							</div>
+						</div>
+					</div>
+				</section>
+				<section data-transition="none">
+					<h3>Complete Active Space</h3>
+					<div class="r-stack">
+						<!-- <img src="figures/ci_2_2_configs.png" class="fragment" width="800px"> -->
+						<img src="figures/ci_2_2.png" width="800px">
+						<img src="figures/ci_2_2_cas.png" class="fragment" width="800px">
+					</div>
+					<p>
+						\[\begin{gather*}
+							{\hat{H}\psi = E \psi} {\implies \mathbf{H}\mathbf{C} = E\mathbf{C}}
+							\\
+							{ H_{ij} = \langle \phi_i \vert \hat{H} \vert \phi_j \rangle}
+						\end{gather*}\]
+					</p>
+				</section>
+				<section data-transition="none">
+					<h3>Restricted Active Space</h3>
+					<img src="figures/ci_cas_only.png" class="fragment" width="600px">
+					<img src="figures/ras.png" width="300px" class="fragment" style="padding:0px 0px 0px 50px">
+				</section>
+				<!-- RAS-SF project -->
+				<section data-transition="none">
+					<h3> An Open-Shell Coronoid </h3>
+					<div>
+						<!-- <div class="row">
+							<img class="fragment" src="figures/marcin_chichibabin_red.png" height="95px" style="padding:0px 20px 0px 0px">
+							<img class="fragment" src="figures/marcin_schlenk_cyan.png" height="95px">
+						</div> -->
+						<div class="row">
+							<img class="fragment" src="figures/marcin_chichi_schlenk.png" height="110px">
+						</div>
+						<figure class="fragment">
+							<img src="figures/marcin_coronoid_white.png" height="380px">
+							<figcaption style="font-size:0.5em">B. Prajapati <em>et al.</em>, <em>Angew. Chem. Int. Ed.</em> <b>2021</b>, <it>60</it>, 22496</figcaption>
+						</figure>
+					</div>
+				</section>
+				<section data-transition="none">
+					<h3> An Open-Shell Coronoid </h3>
+					<div>
+						<div class="row">
+							<img src="figures/marcin_chichi_schlenk.png" height="110px">
+						</div>
+						<figure>
+							<img src="figures/marcin_coronoid_color_no_p.png" height="380px">
+							<figcaption style="font-size:0.5em">B. Prajapati <em>et al.</em>, <em>Angew. Chem. Int. Ed.</em> <b>2021</b>, <it>60</it>, 22496</figcaption>
+						</figure>
+					</div>
+				</section>
+				<section data-transition="none">
+					<h3> An Open-Shell Coronoid </h3>
+					<div>
+						<div class="row">
+							<img src="figures/marcin_chichi_schlenk.png" height="110px">
+						</div>
+						<figure>
+							<img src="figures/marcin_coronoid_colorized.png" height="380px">
+							<figcaption style="font-size:0.5em">B. Prajapati <em>et al.</em>, <em>Angew. Chem. Int. Ed.</em> <b>2021</b>, <it>60</it>, 22496</figcaption>
+						</figure>
+					</div>
+				</section>
+				<section data-transition="none">
+					<h3>Coronoid Computational Methods</h3>
+					<div class="container">
+						<div class="col">
+							<ul>
+								<li class="fragment">Optimize structures with CASSCF(6e,6o)/cc-pVDZ</li>
+								<li class="fragment">Compute spin states with RAS(6,6)-SF/cc-pVDZ</li>
+							</ul>
+							<img src="figures/ras.png" class="fragment" height="350px">
+						</div>
+						<div class="col">
+							<img src="figures/marcin_coronoid_colorized.png" width="800px">
+						</div>
+					</div>
+				</section>
+				<section data-transition="none">
+					<h3>Coronoid Energies</h3>
+					<p>
+						<img src="figures/energy_plot_dark.png" height="550px">
+					</p>
+				</section>
+				<section data-transition="none">
+					<h3>Polyradicaloid indices</h3>
+					<img src="figures/gamma_plot_dark.png" height="600px">
+				</section>
+				<section data-transition="none">
+					<h3>Odd electron density</h3>
+					<div class="container">
+						<div class="col">
+							<div class="r-stack">
+								<img src="figures/sing.png" height="400px">
+								<!-- <img src="figures/sing.png" height="400px" class="fragment" data-fragment-index="0"> -->
+								<!-- <img src="figures/marcin_couplings_d3h.png" class="fragment" data-fragment-index="1" height="400px"> -->
+								<!-- <img src="figures/marcin_couplings.png" class="fragment" data-fragment-index="2" height="400px"> -->
+							</div>
+						</div>
+						<div class="col">
+							<div class="r-stack">
+								<img src="figures/marcin_coronoid_colorized.png" height="400px">
+								<!-- <img src="figures/marcin_coronoid_colorized.png" class="fragment fade-out" data-fragment-index="3" height="400px"> -->
+								<!-- <img src="figures/energy_plot_dark.png" class="fragment" data-fragment-index="3" height="400px"> -->
+								<!-- <img src="figures/marcin_spin_ham.png" class="fragment" data-fragment-index="2" width="800px"> -->
+							</div>
+						</div>
+					</div>
+					<p>
+
+					</p>
+				</section>
+				<section data-transition="none" data-visibility="hidden">
+					<h3>Diagonalizing the Spin Hamiltonian</h3>
+					<div>
+						<img src="figures/marcin_couplings_d3h.png" height="320px">
+						<img src="figures/energy_plot_dark.png" height="320px">
+						<div class="r-stack">
+							<img src="figures/marcin_spin_ham_d3h.png" class="fragment fade-out" height="250px"> <!-- TO DO - Make D3H Hamiltonian Figure --->
+							<div style="font-size: 18pt" class="fragment">
+								\[\begin{align*}
+									E_0 &= J_1 + J_2 + 2J_3 + J_4\\
+									E_1 = E_2 &= -J_3 - \sqrt{J_1^2 - J_1 J_2 - J_1 J_4 + J_2^2 - J_2 J_4 + J_4^2} \\
+									E_3 = E_4 &= -J_3 + \sqrt{J_1^2 - J_1 J_2 - J_1 J_4 + J_2^2 - J_2 J_4 + J_4^2}\\
+									E_5 &= -J_1 - J_2 + 2J_3 - J_4
+								\end{align*}\]
+							</div>
+						</div>
+					</div>
+				</section>
+				<section data-transition="none" data-visibility="hidden">
+					<h3>Diagonalizing the Spin Hamiltonian</h3>
+					<div>
+						<img src="figures/marcin_couplings.png" height="320px">
+						<img src="figures/energy_plot_dark.png" height="320px">
+						<div class="r-stack">
+							<img src="figures/marcin_spin_ham.png" class="fragment fade-out" height="250px">
+							<table style="font-size:16pt" class="fragment">
+								<tr>
+									<th>Geometry</th>
+									<th>$J_1$</th>
+									<th>$J_2$</th>
+									<th>$J_3$</th>
+									<th>$J_4$</th>
+									<th>$\varepsilon_1$</th>
+									<th>$\varepsilon_2$</th>
+									<th>$\varepsilon_{3a}$</th>
+									<th>$\varepsilon_{3b}$</th>
+									<th>$\varepsilon_{4}$</th>
+									<th>RMSE</th>
+								</tr>
+								<tr>
+									<th>Singlet ($D_{3h}$)</th>
+									<td>-0.0382</td>
+									<td>-0.0302</td>
+									<td>-0.0008</td>
+									<td>-0.0097</td>
+									<td>0</td>
+									<td>0</td>
+									<td>0</td>
+									<td>0</td>
+									<td>0</td>
+									<td>$1.70\times10^{-7}$</td>
+								</tr>
+								<tr>
+									<th>Triplet ($C_{2v}$)</th>
+									<td>-0.0322</td>
+									<td>-0.0262</td>
+									<td>-0.0011</td>
+									<td>-0.0081</td>
+									<td>0.0101</td>
+									<td>-0.0097</td>
+									<td>-0.0007</td>
+									<td>0.0003</td>
+									<td>0.0042</td>
+									<td>$6.31\times10^{-9}$</td>
+								</tr>
+								<tr>
+									<th>Quintet ($C_{2v}$)</th>
+									<td>-0.0295</td>
+									<td>-0.0240</td>
+									<td>-0.0012</td>
+									<td>-0.0073</td>
+									<td>-0.0053</td>
+									<td>-0.0095</td>
+									<td>0.0004</td>
+									<td>0.0004</td>
+									<td>-0.0017</td>
+									<td>$1.03\times10^{-9}$</td>
+								</tr>
+								<tr>
+									<th>Septet ($D_{3h}$)</th>
+									<td>-0.0277</td>
+									<td>-0.0233</td>
+									<td>-0.0012</td>
+									<td>-0.0073</td>
+									<td>0</td>
+									<td>0</td>
+									<td>0</td>
+									<td>0</td>
+									<td>0</td>
+									<td>$5.25\times10^{-7}$</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</section>
+				<!-- HCI -->
+				<section data-transition="none">
+					<h3>CI revisited</h3>
+					<p>
+						<ul>
+							<li style="font-size:24pt" class="fragment" data-fragment-index="1">CI Hamiltonian elements are mostly zero</li>
+							<li style="font-size:24pt" class="fragment" data-fragment-index="2">$$
+								\fragment{1}{\hat{H}}
+								\fragment{2}{= \color{cyan}{-\frac{1}{2} \sum_i \nabla_i^2}
+								\color{cyan}{- \sum_I \sum_i \frac{Z_I}{\vert r_i - R_I \vert}}}
+								\fragment{3}{\color{yellow}{+ \sum_{i>j} \frac{1}{\vert r_i - r_j \vert}}}
+							$$</li>
+						</ul>
+					</p>
+					<div class="container">
+						<div class="col">
+							<img src="figures/ci_orbs_hf.png" height="300px" class="fragment" data-fragment-index="2" style="padding:0px 30px 0px 0px">
+							<img src="figures/ci_orbs_cis.png" height="300px" class="fragment" data-fragment-index="3"style="padding:0px 30px 0px 0px">
+							<img src="figures/ci_orbs_cid.png" height="300px" class="fragment" data-fragment-index="4">
+						</div>
+						<div class="col">
+							<figure class="fragment">
+								<img src="figures/ham_connect_4_2.png" height="300px">
+								<figcaption style="font-size:18pt">CAS(4,4)</figcaption>
+							</figure>
+						</div>
+						<div class="col">
+							<figure class="fragment">
+								<img src="figures/ham_connect_6_3.png" height="300px">
+								<figcaption style="font-size:18pt">CAS(6,6)</figcaption>
+							</figure>
+						</div>
+						<div class="col">
+							<figure class="fragment">
+								<img src="figures/ham_connect_8_4.png" height="300px">
+								<figcaption style="font-size:18pt">CAS(8,8)</figcaption>
+							</figure>
+						</div>
+					</div>
+				</section>
+				<section data-transition="none">
+					<h3>Heat-bath CI</h3>
+					<ul>
+						<li class="fragment" data-fragment-index="1"> First: get a variational wave function</li>
+						<li class="fragment" data-fragment-index="2"> Select important determinants</li>
+					</ul>
+					<div>
+						<img src="figures/ci_orbs_hf.png" height="300px" class="fragment" data-fragment-index="3" style="padding:0px 35px 0px 0px;">
+						<img src="figures/hbci_var_36.png" height="300px" class="fragment" data-fragment-index="4">
+						<img src="figures/hbci_var_188.png" height="300px" class="fragment" data-fragment-index="5">
+						<img src="figures/hbci_var_364.png" height="300px" class="fragment" data-fragment-index="6">
+					</div>
+					<div class="fragment" style="font-size:22pt" data-fragment-index="3">
+						$$\text{max}(\vert H_{ki}c_i \vert) > \varepsilon_1$$
+					</div>
+				</section>
+				<section data-transition="none">
+					<h3>Heat-bath CI</h3>
+					<ul>
+						<li> Second step: do perturbation theory</li>
+						<li class="fragment"> Recover remaining electron correlation</li>
+					</ul>
+					<div>
+						<img src="figures/big_pt.png" height="300px" class="fragment">
+					</div>
+					<p style="font-size:20pt" class="fragment">
+						$$ 
+						\Delta E^{(2)} \approx \sum_k 
+						\frac{(\sum_i^{\vert H_{ki}c_i \vert>\varepsilon_2} H_{ki}c_i)^2}
+						{E^{(0)} - H_{kk}}
+						$$
+					</p>
+				</section>
+				<section data-transition="none">
+					<h3>HCI implementation details</h3>
+					<ul>
+						<li class="fragment" data-fragment-index="1">
+							Encode Slater determinants<span class="fragment" data-fragment-index="2">: 1-hot encode $\alpha$ and $\beta$ electrons</span>
+						</li>
+						<li class="fragment" data-fragment-index="6">Store $\alpha$ and $\beta$ strings in <code>std::bitset</code></li>
+					</ul>
+					<div class="container">
+						<div class="r-stack col">
+							<img src="figures/ci_encode.png" height="300px" class="fragment" data-fragment-index="3">
+							<img src="figures/ci_encode_a.png" height="300px" class="fragment" data-fragment-index="4">
+							<img src="figures/ci_encode_ab.png" height="300px" class="fragment" data-fragment-index="5">
+						</div>
+					</div>
+					<p class="fragment" style="font-size:0.5em">D.-K. Dang, J.A. Kammeraad, P.M. Zimmerman<em> J. Phys. Chem. A</em> <b>2023</b>, 127, <it>1</it>, 400</p>
+				</section>
+				<section data-transition="none">
+					<h3>Parallelization of HCI</h3>
+					<ul>
+						<li class="fragment" data-fragment-index="1">Hash $\alpha$ and $\beta$ strings<span class="fragment" data-fragment-index="2">: <code>std::bitset</code> $\implies$ <code>int</code>-type</span> </li>
+					</ul>
+					<div class="container">
+						<div class="col r-stack">
+							<img src="figures/mpi_1.png" height="400px" class="fragment" data-fragment-index="3">
+							<img src="figures/mpi_2.png" height="400px" class="fragment" data-fragment-index="4">
+							<img src="figures/mpi_3.png" height="400px" class="fragment" data-fragment-index="5">
+							<img src="figures/mpi_4.png" height="400px" class="fragment" data-fragment-index="6">
+							<img src="figures/mpi_5.png" height="400px" class="fragment" data-fragment-index="7">
+							<img src="figures/mpi_6.png" height="400px" class="fragment" data-fragment-index="8">
+							<img src="figures/mpi_7.png" height="400px" class="fragment" data-fragment-index="9">
+						</div>
+						<div class="col r-stack">
+							<!-- <pre class="fragment" data-fragment-index="10" style="font-size:12pt"><code data-trim data-line-numbers="|4,7|1,6|2,8|8,9|2,3,8,9|6,7,11|6,12|9,10,13|6,14|6,15|"  class="c++" style="font-size:12pt;width:600px"><script type="text/template" style="font-size:12pt"> -->
+								<pre class="fragment" data-fragment-index="10" style="font-size:12pt"><code data-trim data-line-numbers  class="c++" style="font-size:12pt;width:600px"><script type="text/template" style="font-size:12pt">
+								#define FNV_32_PRIME 0x0100093
+								#define MAXORBS 192
+								__attribute__((optimize("unroll-loops")))
+								size_t Fnv_hash_bytes(const void* ptr)
+								{
+									size_t hash = FNV_32_PRIME;
+									const size_t* cptr = static_cast<const size_t*>(ptr);
+									int len = MAXORBS / 64;
+									for (;len;--len)
+									{
+										hash ^= static_cast<size_t>(*cptr++);
+										hash *= static_cast<size_t>(2870177450012600261ULL);
+									}
+									hash = hash >> 37;
+									return hash;
+								}
+							</script></code></pre>
+						</div>
+					</div>
+				</section>
+				<section data-transition="none">
+					<h3>HCI Performance</h3>
+					<ul style="font-size:18pt">
+						<li class="fragment">Butadiene (C$_4$H$_6$) in cc-pVDZ</li>
+						<li class="fragment">(22e,82o)<span class="fragment"> - ~$10^{26}$ FCI determinants</span></li>
+						<li class="fragment">$3.2 \times 10^6$ variational determinants </li>
+						<li class="fragment">$2.7 \times 10^{10}$ perturbative determinants</li>
+					</ul>
+					<div class="container">
+						<div class="col r-stack">
+							<img src="figures/hci_timings_raw.png" height="350px" class="fragment">
+						</div>
+						<div class="col r-stack">
+							<img src="figures/hci_speedup.png" height="350px" class="fragment fade-in-then-out">
+							<img src="figures/hci_efficiency.png" height="350px" class="fragment">
+						</div>
+					</div>
+				</section>
+				<section data-transition="none">
+					<h3>Cyclobutadiene Automerization with HCI</h3>
+					<div>
+						<img src="figures/buta_auto_scheme.png" class="fragment" height="75px">
+					</div>
+					<ul style="font-size:18pt">
+						<li class="fragment">C$_4$H$_4$ with cc-pVTZ</li>
+						<li class="fragment">(20e,172o) <span class="fragment"> - ~$2\times10^{31}$ FCI determinants</span></li>
+					</ul>
+					<div>
+						<img src="figures/hci_buta_extrap.png" class="fragment" height="350px">
+						<img src="figures/hci_buta_auto.png" class="fragment" height="350px">
+					</div>
+				</section>
+				<section data-transition="none">
+					<h3>[$\text{FeO}(\text{NH}_3)_5$]$^{2+}$</h3>
+					<div>
+						<img src="figures/feo_cmpd.png" height="130px">
+					</div>
+					<ul style="font-size:18pt">
+						<li class="fragment">Fe, O: cc-pVTZ, N: cc-pVDZ, H: 6-31G</li>
+						<li class="fragment">(82e,198o) all electron active space - $3 \times 10^{85}$ FCI determinants</li>
+						<li class="fragment">Truncate to (22e,168o) - $3\times 10^{33}$ FCI determinants</li>
+					</ul>
+				</section>
+				<section data-transition="none">
+					<h3>[$\text{FeO}(\text{NH}_3)_5$]$^{2+}$</h3>
+					<div>
+						<img style="float:center" class="fragment" src="figures/feo_orbs_pics/feo_3_NOs.png" height="400px">
+					</div>
+				</section>
+				<section data-transition="none">
+					<h3>[$\text{FeO}(\text{NH}_3)_5$]$^{2+}$</h3>
+					<div>
+						<img src="figures/feo_no_4.png" height="400px">
+					</div>
+					<div>
+						<ul style="font-size:18pt">
+							<li class="fragment">Most expensive calculation: less than 12h on 36 nodes <span class="fragment">($2.4 \times 10^{7}$ variational and $8.9 \times 10^{10}$ perturbative dets)</span></li>
+							<li class="fragment">Quintet lower than triplet by ~6 kcal mol$^{-1}$</li>
+						</ul>
+					</div>
+				</section>
+				<section data-transition="none" data-visibility="hidden">
+					<h3>Limitations of HCI</h3>
+					<div>
+						<ul style="font-size:24pt">
+							<li class="fragment">HCI reduces FCI spaces to more manageable problem sizes</li>
+							<li class="fragment">Implementation of HCI achieves >75% parallel efficiency on 32 nodes (4096 cores)</li>
+							<li class="fragment">Less than 12h for (22e,168o) active space ($2.4 \times 10^{7}$ variational and $8.9 \times 10^{10}$ perturbative dets)</li>
+							<li class="fragment">HCI still has exponential growth</li>
+							<li class="fragment">Quickly hit limits of modern computing</li>
+						</ul>
+					</div>
+				</section>
+				<!-- How do we begin to attempt an active space of 82,198 -->
+				<section data-transition="none">
+					<h3>Strategies For Big CI</h3>
+					<ul style="font-size:22pt">
+						<li class="fragment">
+							Many-body expansion 
+							<span class="fragment">$$E = E_{ref} + \sum_{i} \varepsilon_i + \sum_{i>j} \varepsilon_{ij} + \sum_{i>j>k} \varepsilon_{ijk} + \cdots$$</span>
+						</li>
+						<li class="fragment">Chemically intuitive definition of "bodies"</li>
+					</ul>
+					<div class="r-stack">
+						<img src="figures/eth_orbs_1.png" class="fragment fade-in-then-out" height="350px">
+						<img src="figures/eth_orbs_2.png" class="fragment fade-in-then-out" height="350px">
+						<img src="figures/eth_orbs_3.png" class="fragment" height="350px">
+					</div>
+				</section>
+				<section data-transition="none">
+					<h3>The many-body expansion for CAS</h3>
+					<div class="r-stack">
+						<img src="figures/icas_0.png" class="fragment" height="500px">
+						<img src="figures/icas_1.png" class="fragment" height="500px">
+						<img src="figures/icas_2.png" class="fragment" height="500px">
+						<img src="figures/icas_3.png" class="fragment" height="500px">
+						<img src="figures/icas_4.png" class="fragment" height="500px">
+						<img src="figures/icas_5.png" class="fragment" height="500px">
+						<img src="figures/icas_6.png" class="fragment" height="500px">
+						<img src="figures/icas_7.png" class="fragment" height="500px">
+					</div>
+					<p class="fragment" style="font-size:0.5em">D.-K. Dang, P.M. Zimmerman<em> J. Chem. Phys.</em> <b>2021</b>, 014105</p>
+				</section>
+				<section data-transition="none">
+					<h3>$\text{i}$CASSCF</h3>
+					<div class="container">
+						<div class="col">
+							<img src="figures/icas_orb_rot.png" height="500px">
+						</div>
+						<!-- <div class="col fragment">
+							<img src="figures/scf_propane_cropped.gif" height="300px">
+						</div> -->
+						<div class="col fragment">
+							\[\begin{gather*}
+								\nabla E^o \rightarrow 0 \\
+								^o E_{pq}^{(1)} = 2 (F_{pq} - F_{qp}) \rightarrow 0
+							\end{gather*}\]
+							<ul style="font-size:24pt">
+								<li class="fragment">$F_{pq}$ looks like single excitation from $p \rightarrow q$</li>
+								<li class="fragment">Numerical trick: remove redundant single excitations</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+				<section data-transition="none">
+					<h3>$\text{i}$CASSCF Energy Benchmarks</h3>
+					<img src="figures/icas_ene_err.png" height="500px">
+				</section>
+				<section data-transition="none">
+					<h3>$\text{i}$CASSCF Geometry Benchmarks</h3>
+					<img src="figures/icas_ang_err.png" height="400px" class="fragment">
+					<img src="figures/icas_dis_err.png" height="400px" class="fragment">
+				</section>
+				<section data-transition="none">
+					<h3>$\text{oxoMn(salen)Cl}$</h3>
+					<div class="container">
+						<div class="col">
+							<img src="figures/icas_mn_cd.png" height="150px" class="fragment">
+							<img src="figures/icas_mn_3d.png" height="150px" class="fragment">
+							<br>
+							<ul style="font-size:18pt">
+								<li class="fragment">(84e,84o)</li>
+								<li class="fragment">$2.5 \times 10^{48}$ FCI determinants</li>
+							</ul>
+						</div>
+						<div class="col">
+							<table style="font-size:18pt" class="fragment">
+								<tr>
+									<th>Calculation</th>
+									<th>$\Delta E_{3-1}$<br>(kcal mol$^{-1}$)</th>
+								</tr>
+								<tr>
+									<td>iCASSCF (n=3)</td>
+									<td>-0.7</td>
+								</tr>
+								<tr>
+									<td>iCASSCF (n=4)</td>
+									<td>-0.6</td>
+								</tr>
+								<tr>
+									<td>iCAS-CI (n=3)</td>
+									<td>5.1</td>
+								</tr>
+								<tr>
+									<td>iCAS-CI (n=4)</td>
+									<td>5.5</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="r-stack">
+						<img src="figures/icas_mn_no_1.png" class="fragment">
+						<img src="figures/icas_mn_no_2.png" class="fragment">
+					</div>
+				</section>
+				<!-- For introducing STOs -->
+				<section data-transition="none">
+					<h3>Basis Selection Revisted</h3>
+					<div class="container">
+						<div class="col" style="font-size : 28pt">
+							<div class="r-stack">
+								<img src="figures/lcao_left.png" height="350px" class="fragment">
+								<img src="figures/lcao_left_right.png" height="350px" class="fragment">
+								<img src="figures/lcao_left_right_mo.png" height="350px" class="fragment">
+							</div>
+						</div>
+					</div>
+				</section>
+				<section data-transition="none">
+					<h3>Gaussian Orbitals</h3>
+					<div class="container">
+						<div class="col">
+							<p style="font-size:17pt" class="fragment" data-fragment-index="2">
+								$S(\zeta,n,l,m,r,\theta,\phi) = N^{\text{STO}}r^{n-1}e^{-\zeta r}Z_{lm}(\theta,\phi)$
+							</p>
+							<div class="r-stack">
+								<img src="figures/sto_ng_0.png" class="fragment fade-in-then-out" height="570px" data-fragment-index="4">
+								<img src="figures/sto_ng_1.png" class="fragment fade-in-then-out" height="570px" data-fragment-index="5">
+								<img src="figures/sto_ng_2.png" class="fragment fade-in-then-out" height="570px" data-fragment-index="6">
+								<img src="figures/sto_ng_3.png" class="fragment" height="570px" data-fragment-index="7">
+							</div>
+						</div>
+						<div class="col">
+							<p style="font-size:17pt" class="fragment" data-fragment-index="3">
+								$G(\alpha,n,l,m,r,\theta,\phi) = N^{\text{GTO}}e^{-\alpha r^2}S_{lm}(r,\theta,\phi)$
+							</p>
+							<img src="figures/sto_ng_log.png" height="540px" class="fragment" data-fragment-index="8">
+						</div>
+					</div>
+				</section>
+				<section data-transition="none">
+					<h3>Molecular Integrals</h3>
+					<p style="font-size:30pt">
+						\[\begin{equation*}
+							\hat{H}
+							= \color{lime}{\underbrace{\vphantom{\boxed{\sum_{i>j}}}\color{lime}{-\frac{1}{2} \sum_i \nabla_i^2}}_{\text{e$^-$ KE}}}
+							\color{violet}{\underbrace{\vphantom{\boxed{\sum_{i>j}}}\color{violet}{+ \sum_{i>j} \frac{1}{\vert r_i - r_j \vert} }}_{\text{e$^-$-e$^-$ repulsion}}}
+							\color{yellow}{\underbrace{\vphantom{\boxed{\sum_{i>j}}}\color{yellow}{- \sum_I \sum_i \frac{Z_I}{\vert r_i - R_I \vert}}}_{\text{nuc-e$^-$ attraction}}}
+						\end{equation*}\]
+					</p>
+					<p>Integrals needed:</p>
+					<ul style="font-size:18pt">
+						<li >$\color{lime}{\int \chi_p (r) \frac{1}{2} \nabla^2 \chi_q (r) dr = (p\vert \frac{1}{2} \nabla^2 \vert q)}$</li>
+						<li >$\color{violet}{\int \int \chi_p (r_1) \chi_q (r_1) \frac{1}{\vert r_1 - r_2 \vert} \chi_r (r_2) \chi_s (r_2) dr_1 dr_2 = (p q \vert r s)}$</li>
+						<li >$\color{yellow}{\int \chi_p (r) \frac{Z_I}{\vert R_I - r \vert} \chi_q (r) dr = (p \vert \frac{Z_I}{\vert R_I - r \vert} \vert q)}$</li>
+						<li >$\int \chi_p(r) \chi_q(r) dr = (p \vert q)$</li>
+					</ul>
+				</section>
+				<section data-transition="none">
+					<h3>Resolution of the Identity Approximation</h3>
+					<ul>
+						<li class="fragment"> Condenses 4-center integrals to 2- and 3-center integrals</li>
+						<li class="fragment"> Utilizes an <span style="color:violet">auxiliary basis</span> to fit the density</li>
+					</ul>
+					<p>
+						\[\begin{gather*}
+							\fragment{1}{(\color{yellow}{\mu \nu} \vert \color{yellow}{\lambda \kappa}) \approx 
+							\sum_{\color{violet}{PQ}} (\color{yellow}{\mu \nu} \vert \color{violet}{P}) 
+							(\color{violet}{PQ})_{\color{violet}{PQ}}^{-1} (\color{violet}{Q} \vert \color{yellow}{\lambda \kappa})}
+							\fragment{2}{= \sum_{\color{violet}{Q}} B_{\color{yellow}{\mu\nu}}^\color{violet}{Q} B_{\color{yellow}{\lambda \kappa}}^\color{violet}{Q}} \\
+							\fragment{3}{B_{\color{yellow}{\mu\nu}}^\color{violet}{Q} = \sum_\color{violet}{P} (\color{yellow}{\mu \nu} \vert \color{violet}{P}) (\color{violet}{PQ})_{\color{violet}{PQ}}^{-1/2}} 
+							\\
+							\fragment{4}{(\color{violet}{PQ})_{\color{violet}{PQ}} = \int \int \chi_\color{violet}{P}(r_1) \frac{1}{\vert r_1 - r_2 \vert} \chi_\color{violet}{Q}(r_2) dr_1 dr_2}
+						\end{gather*}\]
+					</p>
+				</section>
+				<section data-transition="none">
+					<h3>6D integration to 3D integration</h3>
+					<ul style="font-size:18pt">
+						<li> Use a central potential for a Slater orbital $$ S(\zeta,n,l,m,r,\theta,\phi) = N^{\text{STO}}r^{n-1}e^{-\zeta r}Z_{lm}(\theta,\phi) $$</li>
+					</ul>
+					<p>
+						\[\begin{gather*}
+							\fragment{1}{\int \int \chi_P(r_1) \frac{1}{\vert r_1 - r_2 \vert} \chi_\mu (r_2) \chi_\nu (r_2) dr_1 dr_2 = \int \color{yellow}{V_C^P} (r) \chi_\mu (r) \chi_\nu (r) d r} \\
+							\fragment{2}{\color{yellow}{V_C^P} (\zeta,n,l,m,r,\theta,\phi) = \frac{4 \pi (2 \zeta)^{n+(1/2)}}{\sqrt{(2n)!}(2l+1)}Z_{lm}(\theta,\phi)\color{lime}{I_{nl}}(r)} \\
+							\fragment{3}{\color{lime}{I_{nl}}(r) = r^{-l-1} \int_0^r (r^\prime)^{n+l+1} e^{-\zeta r^\prime} d r^\prime + r^l \int_r^\infty (r^\prime)^{n-l} e^{-\zeta r^\prime} d r^\prime}
+						\end{gather*}\]
+					</p>
+				</section>
+				<section data-transition="none">
+					<h3>Integrating Slater Orbitals on a grid</h3>
+					<div class="container">
+						<div class="col">
+							<figure class="fragment" data-fragment-index="2">
+								<img src="figures/red_on_alpha.png" height="200px">
+								<figcaption style="font-size:15pt">C. Beentjes, “Quadrature on a spherical surface,” (2016).</figcaption>
+							</figure>
+						</div>
+						<div class="col">
+							<ul style="font-size:18pt">
+								<li class="fragment" data-fragment-index="1">Lebedev angular grid</li>
+								<li class="fragment" data-fragment-index="3">Log radial grid</li>
+								<li data-fragment-index="4" class="fragment">Voronoi polyhedra partitioning and weighting</li>
+							</ul>
+							<img src="figures/voronoi_test.png" height="200px" class="fragment" data-fragment-index="4">
+						</div>
+					</div>
+					<p class="fragment">
+						\[\begin{equation*}
+							(\mu\nu \vert P) = N_{V_C^P,64}^{\text{STO}} N_{\chi_\mu,64}^{\text{STO}} N_{\chi_\nu,64}^{\text{STO}} \sum_i \bar{V}_C^P (x_i)_{32}
+							\bar{\chi}_\mu(x_i)_{32} \bar{\chi}_\nu(x_i)_{32} w(x_i)_{32}
+						\end{equation*}\]
+					</p>
+					<p class="fragment" style="font-size:0.5em">D.-K. Dang, L.W. Wilson, P.M. Zimmerman<em> J. Comput. Chem. A</em> <b>2022</b> 43, 1680</p>
+				</section>
+				<section data-transition="none">
+					<h3>GPU Performance</h3>
+					<img src="figures/slater_speedup.png" height="600px">
+				</section>
+				<section data-transition="none">
+					<h3>Multi-GPU efficiency</h3>
+					<img src="figures/slater_multi_gpu32.png" height="400px">
+					<img src="figures/slater_multi_gpu64.png" height="400px">
+				</section>
+				<section data-transition="none">
+					<h3>Cyclobutadiene automerization in STO basis</h3>
+					<img src="figures/slater_buta_auto_32.png" height="325px">
+					<img src="figures/slater_buta_auto_64.png" height="325px">
+				</section>
+				<section data-transition="none">
+					<h3>STO Gradients</h3>
+					<img src="figures/slater_grad_sym.png" height="600px">
+				</section>
+				<section data-transition="none">
+					<h3>Summary</h3>
+					<div class="container">
+						<div class="col">
+							<ul style="font-size:18pt">
+								<li class="fragment">With CASSCF and RAS-SF, handle problems where electron correlation is localized to a small number of electrons (12 for routine use)</li>
+								<li class="fragment">Using HCI can reduce the computational burden, and extrapolate to FCI</li>
+								<li class="fragment">With computational advances and parallelization, can treat 22 electrons with FCI-level accuracy</li>
+								<li class="fragment">Using the many-body expansion, get to 84 electrons</li>
+								<li class="fragment">With RI and GPUs, can utilize the more accurate STO basis</li>
+							</ul>
+						</div>
+						<div class="col r-stack">
+							<img src="figures/ndet.png" height="400px">
+						</div>
+					</div>
+				</section>
+				<section data-transition="none">
+					<h3>Acknowledgments</h3>
+					<div class="container">
+						<div class="col" style="font-size:18pt">
+							<u>Committee members</u><br>
+							<ul>
+								<li>Paul Zimmerman</li>
+								<li>Eitan Geva</li>
+								<li>Robert Krasny</li>
+								<li>Roseanne Sension</li>
+							</ul>
+							<br><u>Zimmerman Group</u><br>
+							<ul>
+								<li>Electronic Structure<br> Subgroup</li>
+								<li>Leighton Wilson</li>
+								<li>Josh Kammeraad</li>
+							</ul>
+							<br><u>Gavini Group</u><br>
+							<ul>
+								<li>Bikash Kanungo</li>
+								<li>Ian Lin</li>
+							</ul>
+							<br><u>External Collaborators</u><br>
+							<ul>
+								<li>Marcin Stepien</li>
+								<li>Slava Bryantsev</li>
+							</ul>
+						</div>
+						<div class="col" style="font-size:18pt">
+							<u>Cluster support</u> <br>
+							<ul><li>David Braun</li></ul>
+							<br><u>Funding</u> <br>
+							<ul>
+								<li>NSF GRFP</li>
+								<li>MICDE</li>
+								<li>DOE</li>
+								<li>UM Chemistry</li>
+								<li>UM Rackham</li>
+							</ul>
+							<br><u>Computational<br> Resources</u><br>
+							<ul>
+								<li>XSEDE, SDSC <br>(Expanse)</li>
+								<li>DOE, NERSC <br>(Perlmutter)</li>
+							</ul>
+						</div>
+						<div class="col">
+							<img src="figures/u-m_logo-horizontal-hex-reversed.png" width="400px"><br>
+							<img src="figures/ack_doe.png" height="100px">
+							<img src="figures/ack_nsf.png" height="100px"> <br>
+							<img src="figures/ack_group_photo.jpg" height="200px">
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script src="plugin/math/math.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.configure({
+				pdfSeparateFragments: false,
+				pdfMaxPagesPerSlide: 1
+			})
+			Reveal.initialize({
+				hash: true,
+				slideNumber : true,
+				progress : false,
+				controls : false,
+				width : "90%",
+				// disableLayout : true,
+				// margin : 0.1,
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath ]
+			});
+		</script>
+	</body>
+</html>
