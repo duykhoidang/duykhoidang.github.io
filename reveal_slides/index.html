@@ -30,8 +30,8 @@
 				<section data-transition="none">
 					<h3> A Primer on Quantum Mechanics</h3>
 					<ul>
-						<li class="fragment"> First postulate of quantum mechanics: A system is completely specified by its wave function, $\psi$ </li>
-						<li class="fragment"> A classical observable, $O$, may be obtained by applying Hermitian operator, $\hat{O}$, to the wave function </li>
+						<li class="fragment"> First postulate: A system is completely specified by its wave function, $\psi$ </li>
+						<li class="fragment"> Second postulate: A classical observable, $O$, may be obtained by applying Hermitian operator, $\hat{O}$, to the wave function </li>
 						<li class="fragment" style="list-style-type: none"> $$\hat{O}\vert \psi \rangle = O \vert \psi \rangle$$ </li>
 					</ul>
 				</section>
@@ -152,7 +152,8 @@
 								\vdots & \vdots & \ddots & \vdots \\
 								\phi_1(\mathbf{r}_N) & \phi_2 (\mathbf{r}_N) & \cdots & \phi_N(\mathbf{r}_N)
 							\end{vmatrix}
-						} \fragment{5}{\impliedby \text{has exchange}}
+						} \fragment{5}{\impliedby \text{has exchange}}\\\\
+						\fragment{6}{\implies\text{Optimize orbitals}}
 						\end{gather*}\]
 					</p>
 				</section>
@@ -509,9 +510,6 @@
 						<li> Second step: do perturbation theory</li>
 						<li class="fragment"> Recover remaining electron correlation</li>
 					</ul>
-					<div>
-						<img src="figures/big_pt.png" height="300px" class="fragment">
-					</div>
 					<p style="font-size:20pt" class="fragment">
 						$$ 
 						\Delta E^{(2)} \approx \sum_k 
@@ -519,6 +517,9 @@
 						{E^{(0)} - H_{kk}}
 						$$
 					</p>
+					<div>
+						<img src="figures/big_pt.png" height="300px" class="fragment">
+					</div>
 				</section>
 				<section data-transition="none">
 					<h3>HCI implementation details</h3>
@@ -554,7 +555,7 @@
 						</div>
 						<div class="col r-stack">
 							<!-- <pre class="fragment" data-fragment-index="10" style="font-size:12pt"><code data-trim data-line-numbers="|4,7|1,6|2,8|8,9|2,3,8,9|6,7,11|6,12|9,10,13|6,14|6,15|"  class="c++" style="font-size:12pt;width:600px"><script type="text/template" style="font-size:12pt"> -->
-								<pre class="fragment" data-fragment-index="10" style="font-size:12pt"><code data-trim data-line-numbers  class="c++" style="font-size:12pt;width:600px"><script type="text/template" style="font-size:12pt">
+								<pre class="fragment" data-fragment-index="10" style="font-size:12pt"><code data-trim data-line-numbers="|6,11,12"  class="c++" style="font-size:12pt;width:600px"><script type="text/template" style="font-size:12pt">
 								#define FNV_32_PRIME 0x0100093
 								#define MAXORBS 192
 								__attribute__((optimize("unroll-loops")))
@@ -916,6 +917,7 @@
 							<ul>
 								<li>Bikash Kanungo</li>
 								<li>Ian Lin</li>
+								<li>Sambit Das</li>
 							</ul>
 							<br><u>External Collaborators</u><br>
 							<ul>
@@ -944,7 +946,8 @@
 							<img src="figures/u-m_logo-horizontal-hex-reversed.png" width="400px"><br>
 							<img src="figures/ack_doe.png" height="100px">
 							<img src="figures/ack_nsf.png" height="100px"> <br>
-							<img src="figures/ack_group_photo.jpg" height="200px">
+							<!-- <img src="figures/ack_group_photo.jpg" height="200px"> -->
+							<img src="figures/Summer-2022-Group-Pic.jpg" height="250px">
 						</div>
 					</div>
 				</section>
@@ -966,6 +969,8 @@
 			})
 			Reveal.initialize({
 				hash: true,
+				// width: 960,
+				// height: 700,
 				slideNumber : true,
 				progress : false,
 				controls : false,
